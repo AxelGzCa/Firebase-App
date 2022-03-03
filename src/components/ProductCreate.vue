@@ -49,6 +49,9 @@ export default {
           alert("Product successfully created!");
           this.product.name = "";
           this.product.price = "";
+          if (window.confirm("Do you want other product?")) {
+            this.$router.push("/List");
+          }
         })
         .catch((error) => {
           console.log(error);

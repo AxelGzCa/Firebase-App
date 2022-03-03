@@ -3,7 +3,7 @@
     <div class="col-md-6">
       <h3>Update product</h3>
       <form @submit.prevent="onUpdateForm">
-         <div class="form-groupclear">
+        <div class="form-groupclear">
           <label>Name</label>
           <input
             type="text"
@@ -29,31 +29,38 @@
   </div>
 </template>
 <script>
-import { db } from '../firebase';
+import { db } from "../firebase";
 export default {
   data() {
     return {
-      product:{}
+      product: {},
     };
   },
-  created(){
-    let dbref=db.collection('products').doc(this.$route.params.id);
-    dbref.get().then((doc)=>{
-      this.product=doc.data();
-    }).catch((error)=>{
-      console.log(error);
-    });
-  },
-  methods:{
-    onUpdateForm(event){
-      event.preventDefault();
-      db.collection('products').doc(this.$route.params.id).update(this.product).then(()=>{
-        alert("Product Sucessfully Updated!");
-        this.$route.push("/List");
-      }).catch((error)=>{
+  created() {
+    let dbref = db.collection("products").doc(this.$route.params.id);
+    dbref
+      .get()
+      .then((doc) => {
+        this.product = doc.data();
+      })
+      .catch((error) => {
         console.log(error);
       });
-    }
-  }
+  },
+  methods: {
+    onUpdateForm(event) {
+      event.preventDefault();
+      db.collection("products")
+        .doc(this.$route.params.id)
+        .update(this.product)
+        .then(() => {
+          alert("Product Sucessfully Updated!");
+          this.$router.push("/List");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>

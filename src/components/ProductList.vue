@@ -11,14 +11,23 @@
         </thead>
         <tbody>
           <tr v-for="prod in products" :key="prod.key">
-            <td>{{ prod.name}}</td>
-            <td>{{ prod.price}}</td>
+            <td>{{ prod.name }}</td>
+            <td>{{ prod.price }}</td>
             <td>
-              <router-link :to="{name:'Edit Product', params:{id:prod.key}}" class="btn btn-primary">Edit</router-link>
-              <button @click.prevent="deleteProduct(prod.key)" class="btn btn-danger">Delete</button>
+              <router-link
+                :to="{ name: 'Edit Product', params: { id: prod.key } }"
+                class="btn btn-primary"
+                >Edit</router-link
+              >
+              <button
+                @click.prevent="deleteProduct(prod.key)"
+                class="btn btn-danger"
+              >
+                Delete
+              </button>
             </td>
           </tr>
-        </tbody> 
+        </tbody>
       </table>
     </div>
   </div>
@@ -28,37 +37,41 @@ import { db } from "../firebase";
 export default {
   data() {
     return {
-      products:[]
+      products: [],
     };
   },
-  created(){
-    db.collection('products').onSnapshot((snapshotChange)=>{
-      this.products=[];
-      snapshotChange.forEach((doc)=>{
+  created() {
+    db.collection("products").onSnapshot((snapshotChange) => {
+      this.products = [];
+      snapshotChange.forEach((doc) => {
         this.products.push({
-          key:doc.id,
-          name:doc.data().name,
-          price:doc.data().price
+          key: doc.id,
+          name: doc.data().name,
+          price: doc.data().price,
         });
-      })
+      });
       console.log(this.products);
     });
   },
-  methods:{
-    deleteProduct(id){
-      if(window.confirm("Do you realy want to delete?")){
-        db.collection('products').doc(id).delete().then(()=>{
-          alert.log("Document deleted!");
-        }).catch((error)=>{
-          console.log(error);
-        });
-      } 
-    }
-  }
+  methods: {
+    deleteProduct(id) {
+      if (window.confirm("Do you realy want to delete?")) {
+        db.collection("products")
+          .doc(id)
+          .delete()
+          .then(() => {
+            alert.log("Document deleted!");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+  },
 };
 </script>
 <style>
-.btn-primary{
+.btn-primary {
   margin-right: 12px;
 }
 </style>
