@@ -42,7 +42,18 @@ export default {
       this.product=doc.data();
     }).catch((error)=>{
       console.log(error);
-    })
+    });
+  },
+  methods:{
+    onUpdateForm(event){
+      event.preventDefault();
+      db.collection('products').doc(this.$route.params.id).update(this.product).then(()=>{
+        alert("Product Sucessfully Updated!");
+        this.$route.push("/List");
+      }).catch((error)=>{
+        console.log(error);
+      });
+    }
   }
 };
 </script>
